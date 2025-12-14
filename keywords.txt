@@ -1,0 +1,43 @@
+#######################################
+# Syntax Coloring Map For ecoCheck
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+EcoCheck	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+loop	KEYWORD2
+setTemperature	KEYWORD2
+setHumidity	KEYWORD2
+setAQI	KEYWORD2
+setTVOC	KEYWORD2
+setECO2	KEYWORD2
+setCO	KEYWORD2
+setAlcohol	KEYWORD2
+setCO2	KEYWORD2
+setToluene	KEYWORD2
+setAmmonia	KEYWORD2
+setAcetone	KEYWORD2
+setPM25	KEYWORD2
+setPM10	KEYWORD2
+setDustDensity	KEYWORD2
+setUVIndex	KEYWORD2
+setCustomParameter	KEYWORD2
+sendData	KEYWORD2
+setAutoSend	KEYWORD2
+isWiFiConnected	KEYWORD2
+getLocalIP	KEYWORD2
+resetWiFiConfig	KEYWORD2
+setAPName	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
