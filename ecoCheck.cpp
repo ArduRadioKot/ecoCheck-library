@@ -1,6 +1,5 @@
 #include "ecoCheck.h"
 
-// HTML страница для конфигурации
 const char* configPage = R"rawliteral(
 <!DOCTYPE HTML>
 <html>
@@ -28,7 +27,7 @@ const char* configPage = R"rawliteral(
 </html>
 )rawliteral";
 
-// Конструктор
+
 EcoCheck::EcoCheck(const char* serverIP, int serverPort, const char* deviceID) 
   : _serverIP(serverIP), _serverPort(serverPort), _deviceID(deviceID),
     _apSSID("ESP8266_Config"), _apPassword("12345678"),
