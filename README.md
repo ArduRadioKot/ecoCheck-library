@@ -110,7 +110,7 @@ void setUVIndex(float value); // UV index
 
 ### Sending data
 
-``cpp
+```cpp
 // Manual data sending
 bool sendData();
 
@@ -120,7 +120,7 @@ void setAutoSend(bool enabled, unsigned long interval = 10000);
 
 **Examples:**
 
-``cpp
+```cpp
 // Disable automatic sending
 ecoCheck.setAutoSend(false);
 
@@ -135,7 +135,7 @@ if (someCondition) {
 
 ### WiFi functions
 
-``cpp
+```cpp
 // Checking the WiFi connection
 bool isWiFiConnected();
 
