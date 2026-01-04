@@ -4,7 +4,7 @@ const char* configPage = R"rawliteral(
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>ESP8266 WiFi Configuration</title>
+  <title>WiFi Configuration</title>
   <meta charset="utf-8">
   <style>
     body { font-family: Arial; margin: 40px; }
@@ -30,10 +30,10 @@ const char* configPage = R"rawliteral(
 
 EcoCheck::EcoCheck(const char* serverIP, int serverPort, const char* deviceID) 
   : _serverIP(serverIP), _serverPort(serverPort), _deviceID(deviceID),
-    _apSSID("ESP8266_Config"), _apPassword("12345678"),
+    _apSSID("ESP_Config"), _apPassword("12345678"),
     _isConfigured(false), _shouldReboot(false), 
     _lastDataSend(0), _dataInterval(10000), _autoSendEnabled(true) {
-  _server = new ESP8266WebServer(80);
+  _server = new PLATFORM_WEBSERVER(80);
   
   // Инициализация данных датчиков
   memset(&_currentData, 0, sizeof(_currentData));

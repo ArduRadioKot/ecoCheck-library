@@ -1,9 +1,19 @@
 #ifndef ECOCHECK_H
 #define ECOCHECK_H
 
+#if defined(ESP8266)
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <EEPROM.h>
+#define PLATFORM_WEBSERVER ESP8266WebServer
+#elif defined(ESP32)
+#include <WiFi.h>
+#include <WebServer.h>
+#include <EEPROM.h>
+#define PLATFORM_WEBSERVER WebServer
+#else
+#error "Platform not supported. Use ESP8266 or ESP32"
+#endif
 
 struct WiFiConfig {
   char ssid[32];
@@ -56,7 +66,7 @@ private:
   const char* _apPassword;
   
 
-  ESP8266WebServer* _server;
+  PLATFORM_WEBSERVER* _server;
   WiFiConfig _wifiConfig;
   
   // Флаги состояний
