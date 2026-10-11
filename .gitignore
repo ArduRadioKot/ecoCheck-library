@@ -1,0 +1,53 @@
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Python (app/, bot/) ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# База данных пользователей (создаётся при запуске)
+*.db
+*.sqlite3
+
+# Переменные окружения и секреты
+.env
+.env.*
+
+# --- Node.js / Expo (mobile/) ---
+node_modules/
+.expo/
+.expo-shared/
+web-build/
+dist/
+build/
+npm-debug.*
+yarn-error.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# --- Arduino / C++ сборка ---
+build/
+*.o
+*.a
+*.elf
+*.hex
+*.bin
+
+# --- Логи ---
+*.log
+logs/

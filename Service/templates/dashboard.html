@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aquaris x S.I.T | Дэшборд</title>
+
+  <!-- Шрифт и AOS-анимации -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+
+  <header data-aos="fade-down">
+    <div class="logo">
+      <i class="fas fa-wind"></i>
+      <h1>Ecocheck | Дэшборд</h1>
+    </div>
+    <a href="{{ url_for('index') }}" class="header-button">На главную</a>
+  </header>
+
+  <section class="hero" data-aos="fade-up">
+    <div class="hero-content">
+      <h2>Показания сенсоров</h2>
+      <p>Мониторинг данных с датчиков в реальном времени</p>
+    </div>
+  </section>
+
+  <section class="location-selector" data-aos="fade-up">
+    <h3 class="section-title">Подключенные датчики</h3>
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="deviceSearch" placeholder="Поиск по device_ID..." autocomplete="off">
+        <button id="clearSearch" class="clear-search" style="display: none;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div class="selector-container">
+      <div class="selector-title">ESP8266 Сенсоры</div>
+      <div class="location-options" id="locationOptions">
+        <!-- Устройства будут загружены динамически -->
+      </div>
+    </div>
+  </section>
+
+  <section class="sensor-info" data-aos="fade-up">
+    <div class="sensor-header">
+      <div class="sensor-image">
+        <i class="fas fa-wifi"></i>
+      </div>
+      <div class="sensor-details">
+        <div class="sensor-title">ESP8266 Датчик</div>
+        <div class="sensor-location">Подключенный сенсор</div>
+        <div class="sensor-meta">
+          <div class="meta-item">
+            <div class="meta-label">Статус</div>
+            <div class="meta-value">Online</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Последнее обновление</div>
+            <div class="meta-value">12:45</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Кол-во датчиков</div>
+            <div class="meta-value">4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard" data-aos="fade-up">
+    <h3 class="section-title">Показания датчиков</h3>
+    <div class="dashboard-grid" id="sensorData">
+      <!-- Данные будут заполняться динамически -->
+    </div>
+  </section>
+
+  <section class="charts" data-aos="fade-up">
+    <h3 class="section-title">Графики показаний</h3>
+    <div class="charts-grid">
+      <div class="chart-container">
+        <div class="chart-header">
+          <div class="chart-title">График 1</div>
+          <div class="chart-controls">
+            <select id="chart1Sensor1" class="chart-select">
+              <option value="temperature">Температура</option>
+              <option value="humidity">Влажность</option>
+              <option value="co2">CO₂</option>
+              <option value="pm">PM2.5</option>
+              <option value="pressure">Давление</option>
+              <option value="voc">ЛОС</option>
+            </select>
+            <span class="chart-select-separator">и</span>
+            <select id="chart1Sensor2" class="chart-select">
+              <option value="humidity">Влажность</option>
+              <option value="temperature">Температура</option>
+              <option value="co2">CO₂</option>
+              <option value="pm">PM2.5</option>
+              <option value="pressure">Давление</option>
+              <option value="voc">ЛОС</option>
+            </select>
+          </div>
+          <div class="chart-actions">
+            <button class="chart-action" onclick="resetZoom('tempHumidityChart')" title="Сбросить масштаб"><i class="fas fa-home"></i></button>
+            <button class="chart-action" onclick="downloadChart('tempHumidityChart')" title="Скачать"><i class="fas fa-download"></i></button>
+          </div>
+        </div>
+        <div class="chart-stats" id="chart1Stats" style="display: none;">
+          <div class="stat-item">
+            <span class="stat-label">Макс:</span>
+            <span class="stat-value" id="chart1Max">-</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Мин:</span>
+            <span class="stat-value" id="chart1Min">-</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Среднее:</span>
+            <span class="stat-value" id="chart1Avg">-</span>
+          </div>
+        </div>
+        <div class="chart-canvas-container">
+          <canvas id="tempHumidityChart"></canvas>
+        </div>
+        <div class="chart-hint">
+          <i class="fas fa-info-circle"></i> Зажмите левую кнопку мыши и выделите область для анализа
+        </div>
+      </div>
+      <div class="chart-container">
+        <div class="chart-header">
+          <div class="chart-title">График 2</div>
+          <div class="chart-controls">
+            <select id="chart2Sensor1" class="chart-select">
+              <option value="co2">CO₂</option>
+              <option value="pm">PM2.5</option>
+              <option value="temperature">Температура</option>
+              <option value="humidity">Влажность</option>
+              <option value="pressure">Давление</option>
+              <option value="voc">ЛОС</option>
+            </select>
+            <span class="chart-select-separator">и</span>
+            <select id="chart2Sensor2" class="chart-select">
+              <option value="pm">PM2.5</option>
+              <option value="co2">CO₂</option>
+              <option value="temperature">Температура</option>
+              <option value="humidity">Влажность</option>
+              <option value="pressure">Давление</option>
+              <option value="voc">ЛОС</option>
+            </select>
+          </div>
+          <div class="chart-actions">
+            <button class="chart-action" onclick="resetZoom('airQualityChart')" title="Сбросить масштаб"><i class="fas fa-home"></i></button>
+            <button class="chart-action" onclick="downloadChart('airQualityChart')" title="Скачать"><i class="fas fa-download"></i></button>
+          </div>
+        </div>
+        <div class="chart-stats" id="chart2Stats" style="display: none;">
+          <div class="stat-item">
+            <span class="stat-label">Макс:</span>
+            <span class="stat-value" id="chart2Max">-</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Мин:</span>
+            <span class="stat-value" id="chart2Min">-</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Среднее:</span>
+            <span class="stat-value" id="chart2Avg">-</span>
+          </div>
+        </div>
+        <div class="chart-canvas-container">
+          <canvas id="airQualityChart"></canvas>
+        </div>
+        <div class="chart-hint">
+          <i class="fas fa-info-circle"></i> Зажмите левую кнопку мыши и выделите область для анализа
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#">О проекте</a>
+        <a href="#">Документация</a>
+        <a href="#">Контакты</a>
+        <a href="#">Политика конфиденциальности</a>
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-vk"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+      <p>2025 Aquaris x S.I.T | Дэшборд по местоположению</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="{{ url_for('static', filename='js/dash.js') }}"></script>
+</body>
+</html>

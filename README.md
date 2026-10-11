@@ -153,15 +153,15 @@ void setAPName(const char* apSSID, const char* apPassword = "12345678");
 
 ### Example 1: Basic Usage
 
-See `examples/BasicExample/BasicExample.ino`
+See `ecoCheck/examples/BasicExample/BasicExample.ino`
 
 ### Example 2: Manual sending
 
-See `examples/ManualSend/ManualSend.ino`
+See `ecoCheck/examples/ManualSend/ManualSend.ino`
 
 ### Example 3: Full example
 
-See `examples/FullExample/FullExample.ino`
+See `ecoCheck/examples/FullExample/FullExample.ino`
 
 ## WiFi Configuration
 
@@ -213,11 +213,102 @@ uv_index=3.5
 ```
 
 
+## Service (Service/)
+
+A Flask service that receives data from sensors and displays it on a dashboard.
+
+**Features:**
+
+- Accepts data from ESP8266 via POST `/data` (library format, `x-www-form-urlencoded`)
+- Web dashboard with no registration or login — data is available right away
+- Keeps the last 1000 readings in memory and serves them via API
+- Public API for the mobile app (`/api/mobile/sensor-data`)
+- Telegram bot with `/start` and `/refresh` commands (starts together with the service)
+
+### Running
+
+```bash
+pip install flask pyTelegramBotAPI
+cd Service
+python app.py
+```
+
+The service starts on `http://<server_IP>:5002`.
+
+**Environment variables:**
+
+| Variable | Description |
+|---|---|
+| `TELEGRAM_BOT_TOKEN` | Telegram bot token (if not set, the bot is disabled and the service keeps working) |
+
+### Endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/` | Landing page |
+| GET | `/dashboard` | Dashboard with readings |
+| POST | `/data` | Receive data from ESP8266 |
+| GET | `/api/sensor-data` | Sensor data and history |
+| GET | `/api/mobile/sensor-data` | Data for the mobile app |
+
+### Client setup
+
+1. **Library:** set the server IP and port `5002` in the `EcoCheck(...)` constructor
+2. **Mobile app:** set `EXPO_PUBLIC_API_BASE_URL=http://<server_IP>:5002`
+
+### Production deployment
+
+Disable debug mode and use a WSGI server, for example:
+
+```bash
+pip install gunicorn
+cd Service
+gunicorn -w 2 -b 0.0.0.0:5002 app:app
+```
+
+### Service structure
+
+```
+Service/
+├── app.py          # Flask application (routes, API, bot startup)
+├── templates/      # Page templates (index, dashboard)
+└── static/         # Dashboard CSS and JS
+```
+
+`app.py` contains:
+
+- **`SensorDataStore`** — thread-safe readings storage (`threading.Lock`, latest data per device + history in a 1000-entry `deque`)
+- **API** — accepts `/data` from sensors and serves the dashboard and mobile app
+- **Bot startup** — launches the Telegram bot from `bot/bot.py` in a separate thread on startup
+
+## Telegram bot (bot/)
+
+A bot for receiving sensor readings right in Telegram.
+
+- **File:** `bot/bot.py`, function `init_bot(sensor_store)`
+- **Startup:** starts automatically with the service in a separate daemon thread (long polling); on error the bot restarts after 5 seconds
+- **Token:** environment variable `TELEGRAM_BOT_TOKEN` (without it the bot does not start and the service keeps working)
+
+```bash
+export TELEGRAM_BOT_TOKEN="123456:ABC..."
+cd Service && python app.py
+```
+
+**Commands:**
+
+| Command | Description |
+|---|---|
+| `/start`, `/help` | Greeting and list of commands |
+| `/refresh` | Current sensor readings (device `esp01`) |
+
+The bot reads data from the same store as the dashboard, so it shows exactly the values received from ESP8266 on `/data`.
+
 ## Requirements
 
 - ESP8266 (NodeMCU, Wemos D1 Mini, etc.)
 - Arduino IDE with ESP8266 support
 - WiFi network to connect to
+- Python 3.8+ with Flask (to run the service)
 
 ## License
 

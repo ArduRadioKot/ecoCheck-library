@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "AquariusEcoCase",
+    "slug": "AquariusEcoCase",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#30AC97"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aquariuseccase.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#30AC97"
+      },
+      "package": "com.aquariuseccase.app"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4c84a24e-6b6a-4303-93ff-9bb2ec0e699c"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "cli": {
+    "version": ">= 3.17.0"
+  },
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "http://82.202.142.35:5002"
+      }
+    },
+    "release": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_BASE_URL": "http://82.202.142.35:5002"
+      }
+    }
+  }
+}
+

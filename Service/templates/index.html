@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aquaris x S.I.T | Интеллектуальный сенсор качества воздуха</title>
+
+  <!-- Шрифт и AOS-анимации -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+
+  <header data-aos="fade-down">
+    <div class="logo">
+      <i class="fas fa-wind"></i>
+      <h1>EcoCheck</h1>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="header-button">Дашборд</a>
+  </header>
+
+  <section class="hero" data-aos="fade-up">
+    <div class="hero-content">
+      <h2>Интеллектуальный сенсор нового поколения</h2>
+      <p>Мониторинг качества воздуха, микроклимата и газовых соединений в реальном времени с высокой точностью и удобством использования.</p>
+      <div class="hero-buttons">
+        <a href="{{ url_for('dashboard') }}" class="hero-button">Узнать больше</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="sensor">
+    <h3 class="section-title" data-aos="zoom-in">Наш сенсор</h3>
+    <div class="sensor-section" data-aos="fade-up">
+      <div class="sensor-image">
+        <img src="images/photo_2025-12-12 12.42.39.jpeg" alt="Sensor Image">
+      </div>
+      <div class="sensor-info">
+        <h3>Многофункциональный экологический сенсор</h3>
+        <p>Компактное устройство, объединяющее несколько высокоточных датчиков для анализа атмосферы и контроля параметров окружающей среды.</p>
+        
+        <div class="features-grid">
+          <div class="feature">
+            <i class="fas fa-thermometer-half"></i>
+            <span>Температура</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-tint"></i>
+            <span>Влажность</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-smog"></i>
+            <span>CO₂</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-sun"></i>
+            <span>УФ-индекс</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-wind"></i>
+            <span>Частицы PM2.5/PM10</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-weight-hanging"></i>
+            <span>Давление</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-flask"></i>
+            <span>ЛОС</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-atom"></i>
+            <span>Амиак (NH₃)</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-industry"></i>
+            <span>Оксиды азота (NOₓ)</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-vial"></i>
+            <span>Бензол (C₆H₆)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="service" data-aos="fade-up">
+    <h3 class="section-title">Наш сервис и аналитика</h3>
+    <div class="service-content">
+      <div class="service-info">
+        <h3>Мощная аналитическая платформа</h3>
+        <p>Наш облачный сервис предоставляет детальную аналитику и визуализацию данных с ваших сенсоров в реальном времени.</p>
+        
+        <div class="service-features">
+          <div class="service-feature">
+            <i class="fas fa-chart-line"></i>
+            <div>
+              <h4>Реальное время</h4>
+              <p>Данные обновляются каждые 5 секунд</p>
+            </div>
+          </div>
+          <div class="service-feature">
+            <i class="fas fa-bell"></i>
+            <div>
+              <h4>Умные оповещения</h4>
+              <p>Получайте уведомления при превышении норм</p>
+            </div>
+          </div>
+          <div class="service-feature">
+            <i class="fas fa-download"></i>
+            <div>
+              <h4>Экспорт данных</h4>
+              <p>Скачивайте отчеты в различных форматах</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="dashboard-preview">
+        <img src="https://via.placeholder.com/600x400" alt="Dashboard Preview">
+        <div class="dashboard-overlay">
+          <button class="demo-button">Посмотреть демо</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="world-map" data-aos="fade-up">
+    <div class="map-content">
+      <h3 class="section-title" style="color:#fff;">Глобальная сеть сенсоров</h3>
+      <p>Мы готовимся к запуску нашей глобальной сети мониторинга</p>
+      
+      <div class="map-container">
+        <div id="globalMap"></div>
+      </div>
+      
+      <div class="map-stats">
+        <div class="stat-item">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Активных сенсоров</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Городов</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">Скоро</div>
+          <div class="stat-label">Запуск сети</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h3 class="section-title" data-aos="fade-up">Часто задаваемые вопросы</h3>
+    <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+      <button>Когда появятся сенсоры в городах? <i class="fas fa-chevron-down"></i></button>
+      <p>Мы планируем запуск первых сенсоров в Москве и Санкт-Петербурге в ближайшие 3 месяца. Следите за обновлениями!</p>
+    </div>
+    <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+      <button>Можно ли интегрировать сенсор в IoT-платформу? <i class="fas fa-chevron-down"></i></button>
+      <p>Да, доступен REST API и поддержка MQTT-протокола для легкой интеграции с существующими системами.</p>
+    </div>
+    <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+      <button>Как часто нужно калибровать устройство? <i class="fas fa-chevron-down"></i></button>
+      <p>Наши сенсоры требуют калибровки только раз в 12 месяцев благодаря использованию передовых технологий.</p>
+    </div>
+  </section>
+
+  <section class="contact" data-aos="zoom-in">
+    <h3 class="section-title">Свяжитесь с нами</h3>
+    <p>Мы ответим на все ваши вопросы в течение 24 часов!</p>
+    <form>
+      <input type="text" placeholder="Ваше имя" required>
+      <input type="email" placeholder="Email" required>
+      <textarea placeholder="Сообщение" rows="5"></textarea>
+      <button type="submit">Отправить сообщение</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+
+      </div>
+      <p>2025 Aquaris x S.I.T</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
